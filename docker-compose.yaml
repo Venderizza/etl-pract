@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: master_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_:/var/lib/postgresql/data   
+      - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongodb:
+    image: mongo:6
+    container_name: replica_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_:/data/db               
+
+volumes:
+  pg_: {}
+  mongo_: {}
